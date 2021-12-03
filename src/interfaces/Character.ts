@@ -8,5 +8,5 @@ export interface Characters {
         name: string
         url: string
     }
-    // location: string
+    episode: []
 }

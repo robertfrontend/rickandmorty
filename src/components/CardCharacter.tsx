@@ -26,9 +26,12 @@ export default function CardCharacter({ character }: Props) {
                             />
                             <span className='mx-2'>{character.status} - {character.species} </span>
                         </p>
-                        <p className='text-dark'>
+                        <p>
                             Last known location: <br />
-                            <span style={{ fontWeight: 'normal' }}>{character.location.name}</span>
+                            <span>{character.location.name}</span>
+                        </p>
+                        <p>
+                            Episodes <br /> <span>{character.episode.length}</span>
                         </p>
                     </div>
                 </div>
@@ -44,7 +47,7 @@ const Card = styled.div`
     }
     img {
         width: 100%;
-        min-height: 250px;
+        min-height: 300px;
         object-fit: cover;
     }
     p {

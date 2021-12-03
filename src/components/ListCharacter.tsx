@@ -1,10 +1,9 @@
 import { Characters } from '../interfaces/Character'
 import CardCharacter from './CardCharacter'
+
 interface Props {
     characters: Characters[]
 }
-
-
 export default function ListCharacter({ characters }: Props) {
     return (
         <>
