@@ -2,19 +2,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ListCharacter from "./components/ListCharacter";
 import { Characters } from './interfaces/Character'
-
+import Loader from "./components/Loader";
 
 interface ResponseApi {
   data: Object
 }
-
-
-
 function App() {
-
 
   const [data, setdata] = useState<ResponseApi>({ data: {} })
   const [characters, setCharacters] = useState<Characters[]>([])
+  const [isLoader, setisLoader] = useState(false)
 
   useEffect(() => {
     getCharacter()
@@ -22,11 +19,12 @@ function App() {
 
 
   const getCharacter = async () => {
+    setisLoader(true)
     const response = await axios.get('https://rickandmortyapi.com/api/character')
 
     setdata(response.data)
     setCharacters(response.data.results)
-    console.log(response, 'response klk')
+    setisLoader(false)
   }
 
 
@@ -48,11 +46,17 @@ function App() {
       <main className="bg-dark" style={{ minHeight: '100vh' }}>
         <div className="container-fluid">
           <h1 className="text-white py-4 text-center">Rick and Morty App with<br /> React.js + TypeScript</h1>
-          <h2 className="text-white pt-4">Caracteres</h2>
 
-          <div className="row">
-            <ListCharacter characters={characters} />
-          </div>
+          {isLoader ?
+            <div className="text-center"><Loader /></div>
+            : (
+              <>
+                <h2 className="text-white pt-4">Caracteres</h2>
+                <div className="row">
+                  <ListCharacter characters={characters} />
+                </div>
+              </>
+            )}
         </div>
       </main>
 

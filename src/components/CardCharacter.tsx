@@ -38,6 +38,7 @@ export default function CardCharacter({ character }: Props) {
 }
 
 const Card = styled.div`
+    cursor: pointer;
     h3 {
         font-size: 1.3em;
     }
