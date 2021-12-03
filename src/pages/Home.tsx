@@ -2,8 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ListCharacter from "../components/ListCharacter";
 import Loader from "../components/Loader";
+import Search from "../components/Search";
 import { Characters } from "../interfaces/Character";
+import { SearchInterface } from '../interfaces/SearchInterface'
 
+
+import { API } from "../API/config";
 
 interface ResponseApi {
     data: Object
@@ -14,8 +18,11 @@ export default function Home() {
     const [characters, setCharacters] = useState<Characters[]>([])
     const [isLoader, setisLoader] = useState(false)
 
+    const [errorsearch, setErrorSearch] = useState(false)
+
     useEffect(() => {
         getCharacter()
+
     }, [])
 
 
@@ -23,7 +30,8 @@ export default function Home() {
         setisLoader(true)
 
         try {
-            const response = await axios.get('https://rickandmortyapi.com/api/character')
+            const response = await API.get('character')
+            console.log("characters,")
 
             setdata(response.data)
             setCharacters(response.data.results)
@@ -34,9 +42,28 @@ export default function Home() {
         }
     }
 
+    const searchCharacter = async ({ inputsearch }: SearchInterface) => {
+        try {
+            const response = await API.get(`character/?name=${inputsearch}`)
+            console.log(response, 'response buscando characters')
+
+            setdata(response.data)
+            setCharacters(response.data.results)
+            setErrorSearch(false)
+        } catch (error) {
+            setErrorSearch(true)
+        }
+
+    }
+
+    const resetSearch = () => {
+        getCharacter()
+        setErrorSearch(false)
+
+    }
+
     return (
         <>
-
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div className="container">
                     <a href="/" className="navbar-brand">
@@ -53,6 +80,21 @@ export default function Home() {
             <main className="bg-dark" style={{ minHeight: '100vh' }}>
                 <div className="container-fluid">
                     <h1 className="text-white py-4 text-center">Rick and Morty App with<br /> React.js + TypeScript</h1>
+
+                    <Search searchCharacter={searchCharacter} />
+
+                    {
+                        errorsearch && (
+                            <div className="w-50 mx-auto">
+                                <div className="alert alert-dismissible alert-danger text-center">
+                                    <b>Character not found</b> <a href="#" className="alert-link"
+                                        onClick={() => resetSearch()}
+                                    >to reset
+                                    </a>
+                                </div>
+                            </div>
+                        )
+                    }
 
                     {isLoader ?
                         <div className="text-center"><Loader /></div>

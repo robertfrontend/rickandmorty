@@ -9,8 +9,6 @@ interface Props {
 
 export default function CardCharacter({ character }: Props) {
 
-    console.log(character.location.name)
-
     return (
         <Card className="card bg-secondary text-dark">
             <div className="row">
