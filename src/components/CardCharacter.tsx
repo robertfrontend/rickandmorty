@@ -12,7 +12,7 @@ export default function CardCharacter({ character }: Props) {
     console.log(character.location.name)
 
     return (
-        <Card className="card bg-secondary ">
+        <Card className="card bg-secondary text-dark">
             <div className="row">
                 <div className="col-md-5">
                     <img src={character.image} alt="" />
