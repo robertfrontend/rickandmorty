@@ -16,7 +16,7 @@ interface ResponseApi {
 export default function Home() {
     const [data, setdata] = useState<ResponseApi>({ data: {} })
     const [characters, setCharacters] = useState<Characters[]>([])
-    const [isLoader, setisLoader] = useState(false)
+    const [isLoader, setisLoader] = useState(true)
 
     const [errorsearch, setErrorSearch] = useState(false)
 
@@ -43,15 +43,19 @@ export default function Home() {
     }
 
     const searchCharacter = async ({ inputsearch }: SearchInterface) => {
+        setisLoader(true)
         try {
             const response = await API.get(`character/?name=${inputsearch}`)
             console.log(response, 'response buscando characters')
+            setisLoader(false)
 
             setdata(response.data)
             setCharacters(response.data.results)
             setErrorSearch(false)
         } catch (error) {
             setErrorSearch(true)
+            setisLoader(false)
+
         }
 
     }
@@ -64,19 +68,6 @@ export default function Home() {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                <div className="container">
-                    <a href="/" className="navbar-brand">
-                        Rick and Morty App
-                    </a>
-                    <div className="collapse navbar-collapse" id="navbarColor02">
-                        <ul className="navbar-nav mr-auto">
-                            {/* <a href="">Hola world</a> */}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
             <main className="bg-dark" style={{ minHeight: '100vh' }}>
                 <div className="container-fluid">
                     <h1 className="text-white py-4 text-center">Rick and Morty App with<br /> React.js + TypeScript</h1>
