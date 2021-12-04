@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { API } from '../API/config'
 import { BsFillRecordCircleFill } from 'react-icons/bs';
 import Loader from '../components/Loader';
+import EpisodesProfile from '../components/EpisodesProfile';
 // import { Characters } from "../interfaces/Character";
 
 
@@ -33,6 +34,10 @@ interface Episodes {
     url: string;
 }
 
+const getEpisodesIds = (episodesUrls: string[]): number[] => {
+    return episodesUrls.map(url => parseInt(url.split('/').pop()!))
+}
+
 export default function Profile() {
     const { id } = useParams();
 
@@ -53,8 +58,9 @@ export default function Profile() {
         episode: []
     })
 
-    const [episodes, setEpisodes] = useState<Episodes[]>([])
+    const [episodes, setEpisodes] = useState<[]>([])
     const [isLoader, setisLoader] = useState(true)
+
 
     useEffect(() => {
         getCharacter()
@@ -73,15 +79,32 @@ export default function Profile() {
 
             })
 
-            setEpisodes(data)
+            // obtener los episodios id
+            const episodesIds = getEpisodesIds(response.data.episode)
+            console.log(episodesIds, 'epidosdes ids')
+
+            // obtener episodios y url
+            // setEpisodes(episodesIds)
+
+            // obtener characteres
             setCharacters(response.data)
             setisLoader(false)
+
+            // traer informacion de episodios
+            getEpisodes(episodesIds)
 
         } catch (error) {
             alert('error')
             setisLoader(false)
         }
+    }
 
+    const getEpisodes = async (episodesIds: number[]) => {
+        const response = await API.get(`episode/${episodesIds}`)
+
+        console.log(response.data, 'response klk')
+        setEpisodes(response.data)
+        // const response = await API.get("episodes/")
     }
 
     return (
@@ -110,15 +133,7 @@ export default function Profile() {
                                         <h4>Origin</h4>
                                         <p>{character.origin.name}</p>
                                         <h4>Episodes</h4>
-                                        {
-                                            episodes.map((res, key) => (
-                                                <span key={key} className='d-block bg-primary w-100 my-2 card text-center text-white py-2'
-                                                    style={{ cursor: 'pointer' }}
-                                                >
-                                                    <b>Episodio: {res.name}</b>
-                                                </span>
-                                            ))
-                                        }
+                                        <EpisodesProfile episodes={episodes} />
                                         <p>
                                             Last known location: <br />
                                             <span>{character.location.name}</span>
