@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { API } from '../API/config'
 import { BsFillRecordCircleFill } from 'react-icons/bs';
 import Loader from '../components/Loader';
@@ -71,20 +71,9 @@ export default function Profile() {
         setisLoader(true)
         try {
             const response = await API.get(`character/${id}`)
-            let data: any = []
-            response.data.episode.map((epi: EpisodesInterface) => {
-
-                let dt = epi.substring(40, 100)
-                data.push({ 'name': dt, 'url': epi })
-
-            })
 
             // obtener los episodios id
             const episodesIds = getEpisodesIds(response.data.episode)
-            console.log(episodesIds, 'epidosdes ids')
-
-            // obtener episodios y url
-            // setEpisodes(episodesIds)
 
             // obtener characteres
             setCharacters(response.data)
@@ -100,17 +89,38 @@ export default function Profile() {
     }
 
     const getEpisodes = async (episodesIds: number[]) => {
-        const response = await API.get(`episode/${episodesIds}`)
+        setisLoader(true)
 
-        console.log(response.data, 'response klk')
-        setEpisodes(response.data)
-        // const response = await API.get("episodes/")
+        try {
+            const response = await API.get(`episode/${episodesIds}`)
+
+            console.log(response.data)
+
+            if (response.data.length > 1) {
+                setEpisodes(response.data)
+            } else {
+                let data: any = []
+                data.push(response.data)
+                console.log(data, 'data klk')
+                setEpisodes(data)
+            }
+            setisLoader(false)
+
+        } catch (error) {
+            alert('error en episodios')
+        }
+
     }
 
     return (
         <main className="bg-dark text-white" style={{ minHeight: '100vh' }}>
             <div className="container-fluid">
-                <h1 className='py-4'>Profile</h1>
+                <Link
+                    to="/"
+                    className='py-4  text-white d-block'
+                    style={{ fontSize: '1.5em' }}>
+                    <b>Go back</b>
+                </Link>
                 <CardContent>
                     {isLoader && (
                         <div className='w-100 text-center'><Loader /></div>
@@ -133,7 +143,11 @@ export default function Profile() {
                                         <h4>Origin</h4>
                                         <p>{character.origin.name}</p>
                                         <h4>Episodes</h4>
-                                        <EpisodesProfile episodes={episodes} />
+                                        {
+                                            episodes.length > 0 && (
+                                                <EpisodesProfile episodes={episodes} />
+
+                                            )}
                                         <p>
                                             Last known location: <br />
                                             <span>{character.location.name}</span>

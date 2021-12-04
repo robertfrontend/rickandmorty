@@ -15,9 +15,8 @@ export default function CardEpisodeProfile({ data }: Props) {
 
     const [openinfo, setOpenInfo] = useState<boolean>(false)
 
-    const openInfo = () => {
-        setOpenInfo(!openinfo)
-    }
+    const openInfo = () => setOpenInfo(!openinfo)
+
 
     return (
         <span className='d-block bg-primary w-100 my-4 card text-center py-2 text-white px-4'
