@@ -24,12 +24,12 @@ export default function CardEpisodeProfile({ data }: Props) {
             onClick={() => openInfo()}
         >
             <div className="row">
-                <div className="col-md-10" style={{ textAlign: 'left' }}>
-                    <h5 className="text-white ">
+                <div className="col-10 col-md-10" style={{ textAlign: 'left' }}>
+                    <h5 className="text-white" style={{ marginBottom: '0 !important' }}>
                         <b>{data.name}</b>
                     </h5>
                 </div>
-                <div className="col">
+                <div className="col-2 col-md-2">
                     <RiArrowDownSLine
                         style={{ fontSize: '2em' }}
                     />

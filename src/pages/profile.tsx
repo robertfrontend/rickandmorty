@@ -184,4 +184,10 @@ const CardContent = styled.div`
             font-size: 1.2em;
         }
     }
+
+    @media screen and (max-width: 600px) {
+        .card {
+            width: 100%;
+        }
+    }
 ` 

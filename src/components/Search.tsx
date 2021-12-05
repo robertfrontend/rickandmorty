@@ -1,5 +1,6 @@
 
 import { ChangeEvent, useState } from "react"
+import styled from "styled-components"
 import { SearchInterface } from '../interfaces/SearchInterface'
 
 type TypeInputChange = ChangeEvent<HTMLInputElement>
@@ -24,7 +25,7 @@ export default function Search({ searchCharacter }: Props) {
 
 
     return (
-        <div className="w-50 mx-auto">
+        <ContentSearch className="mx-auto">
             <div className="row">
                 <div className="col-8">
                     <input
@@ -38,6 +39,14 @@ export default function Search({ searchCharacter }: Props) {
                     <button className="btn btn-primary d-block w-100 shadow-none">Search</button>
                 </div>
             </div>
-        </div>
+        </ContentSearch>
     )
 }
+
+
+const ContentSearch = styled.div`
+    width: 50%;
+    @media screen and (max-width: 600px) {
+        width: 100%;
+    }
+`

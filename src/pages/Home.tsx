@@ -95,6 +95,31 @@ export default function Home() {
                                 <div className="row">
                                     <ListCharacter characters={characters} />
                                 </div>
+                                <div className="pb-5 mx-auto w-100">
+                                    <ul className="pagination pagination-sm mx-auto">
+                                        <li className="page-item disabled">
+                                            <a className="page-link" href="#">&laquo;</a>
+                                        </li>
+                                        {/* <li className="page-item active">
+                                            <a className="page-link" href="#">1</a>
+                                        </li>
+                                        <li className="page-item">
+                                            <a className="page-link" href="#">2</a>
+                                        </li>
+                                        <li className="page-item">
+                                            <a className="page-link" href="#">3</a>
+                                        </li>
+                                        <li className="page-item">
+                                            <a className="page-link" href="#">4</a>
+                                        </li>
+                                        <li className="page-item">
+                                            <a className="page-link" href="#">5</a>
+                                        </li> */}
+                                        <li className="page-item">
+                                            <a className="page-link" href="#">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </>
                         )}
                 </div>

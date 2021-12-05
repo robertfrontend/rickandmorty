@@ -29,7 +29,10 @@ export default function CardCharacter({ character }: Props) {
                             <span>{character.location.name}</span>
                         </p>
                         <p>
-                            Episodes <br /> <span>{character.episode.length}</span>
+                            Episodes <br />
+                            <span className='badge bg-primary'>
+                                <b>{character.episode.length}</b>
+                            </span>
                         </p>
                     </div>
                 </div>
